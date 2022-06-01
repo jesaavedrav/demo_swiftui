@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ItemView: View {
-   var person: Person
+   @Binding var person: Person
    let action: () -> Void
+   @State var isEditing: Bool = false
    
    var body: some View {
       VStack{
@@ -25,9 +26,23 @@ struct ItemView: View {
          }
          .padding(.top)
          
-         TextWrapperView(text: self.person.address)
-            .padding(.horizontal)
-            .padding(.bottom)
+         HStack {
+            if isEditing {
+               TextField("", text: $person.address)
+                  .foregroundColor(Color.gray)
+            } else {
+               TextWrapperView(text: self.person.address)
+            }
+            
+            Spacer()
+            Button(action: {
+               self.isEditing.toggle()
+            }, label: {
+               Text(isEditing ? "Done" : "Edit")
+            })
+         }
+         .padding(.horizontal)
+         .padding(.bottom)
       }
       .border(Color.black)
    }
@@ -35,6 +50,6 @@ struct ItemView: View {
 
 struct ItemView_Previews: PreviewProvider {
    static var previews: some View {
-      ItemView(person: Person(name: "sdfsf", favColor: "fsdf", favColorView: Color.green, address: "sdfsdf")){}
+      ItemView(person: .constant(Person(name: "sdfsf", favColor: "fsdf", favColorView: Color.green, address: "sdfsdf"))){}
    }
 }

@@ -11,10 +11,14 @@ struct ItemListView: View {
    @ObservedObject var viewModel: ListViewModel = ListViewModel()
     var body: some View {
        VStack{
-          ForEach(viewModel.people) { person in
+          ForEach($viewModel.people) { person in
              ItemView(person: person){
                 viewModel.changeColor(id: person.id)
              }
+          }
+          
+          ForEach(viewModel.people) { person in
+             AddressView(person: person)
           }
        }
     }

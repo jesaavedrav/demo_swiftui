@@ -12,7 +12,9 @@ struct ItemListView: View {
     var body: some View {
        VStack{
           ForEach(viewModel.people) { person in
-             ItemView(name: person.name, favColor: person.favColor, address: person.address, favColorView: person.favColorView)
+             ItemView(person: person){
+                viewModel.changeColor(id: person.id)
+             }
           }
        }
     }
